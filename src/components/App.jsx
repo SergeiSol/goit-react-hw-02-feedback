@@ -10,51 +10,40 @@ export class App extends Component {
     bad: 0,
   };
 
-  hendleIncrement1 = () => {
-    this.setState(prevState => {
-      return {
-        good: prevState.good + 1,
-      };
-    });
+  handleLeaveFeedback = event => {
+    const {
+      target: { name, value },
+    } = event;
+
+    this.setState({ [name]: Number.parseInt(value) + 1 });
   };
-  hendleIncrement2 = () => {
-    this.setState(prevState => {
-      return {
-        neutral: prevState.neutral + 1,
-      };
-    });
-  };
-  hendleIncrement3 = () => {
-    this.setState(prevState => {
-      return {
-        bad: prevState.bad + 1,
-      };
-    });
-  };
-  countTotal = () => {
-    const { good, neutral, bad } = this.state;
-    return good + neutral + bad;
+
+
+  countTotalFeedback = () => {
+    return this.state.good + this.state.neutral + this.state.bad;
   };
 
   countPositiveFeedbackPercentage = () => {
-    const total = this.countTotal();
+    const total = this.countTotalFeedback();
     return Math.floor((this.state.good / total) * 100);
   };
     
   
 
-render(){
+  render() {
+    const { good, neutral, bad } = this.state;
+    
   return (<div>
     <Section title='Please leave feedback'>
-      <FeedbackOptions onIncrement1={this.hendleIncrement1}
-                       onIncrement2={this.hendleIncrement2}
-        onIncrement3={this.hendleIncrement3} />
+      <FeedbackOptions options={this.state}
+            onLeaveFeedback={this.handleLeaveFeedback}
+           />
     </Section>
     <Section title='Statistics'>
-      <Statistics good={this.state.good}
-        neutral={this.state.neutral}
-        bad={this.state.bad}
-        total={this.countTotal()}
+      <Statistics good={good}
+        neutral={neutral}
+        bad={bad}
+        total={this.countTotalFeedback()}
         positivePercentage={this.countPositiveFeedbackPercentage()} />
     </Section>
       

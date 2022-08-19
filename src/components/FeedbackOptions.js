@@ -1,19 +1,58 @@
 import React from 'react';
-
-const FeedbackOptions = ({ onIncrement1, onIncrement2, onIncrement3 }) => {
+import { PropTypes } from 'prop-types';
+const FeedbackOptions = ({ options, onLeaveFeedback }) => {
   return (
     <div className="state">
-      <button className="state-btn" type="button" onClick={onIncrement1}>
+      {Object.keys(options).map(item => (
+        <button
+          key={item}
+          className="state-btn"
+          type="button"
+          name={item}
+          value={options[item]}
+          onClick={onLeaveFeedback}
+        >
+          {item}
+        </button>
+      ))}
+      {/* <button
+        className="state-btn"
+        type="button"
+        name="good"
+        value={good}
+        onClick={onLeaveFeedback}
+      >
         good
       </button>
-      <button className="state-btn" type="button" onClick={onIncrement2}>
+      <button
+        className="state-btn"
+        type="button"
+        name="neutral"
+        value={neutral}
+        onClick={onLeaveFeedback}
+      >
         neutral
       </button>
-      <button className="state-btn" type="button" onClick={onIncrement3}>
+      <button
+        className="state-btn"
+        type="button"
+        name="bad"
+        value={bad}
+        onClick={onLeaveFeedback}
+      >
         bad
-      </button>
+      </button> */}
     </div>
   );
 };
 
 export default FeedbackOptions;
+
+FeedbackOptions.propTypes = {
+  options: PropTypes.shape({
+    good: PropTypes.number.isRequired,
+    bad: PropTypes.number.isRequired,
+    neutral: PropTypes.number.isRequired,
+  }).isRequired,
+  onLeaveFeedback: PropTypes.func.isRequired,
+};
